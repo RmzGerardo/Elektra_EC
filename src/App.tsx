@@ -1,6 +1,6 @@
 // Componente para tener todo centralizado
 
-import { Login } from "../components/Login";
+// import { Login } from "../components/Login";
 import { Main } from "../components/Main";
 import { Productos } from "../components/Productos";
 

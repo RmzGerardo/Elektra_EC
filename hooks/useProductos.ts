@@ -1,8 +1,16 @@
 import { consumirProductos } from "../services/productos";
 import { useEffect, useState } from "react";
 
+interface Product {
+  id: number;
+  title: string;
+  description: string;
+  price: number;
+  thumbnail: string;
+}
+
 export const useProductos = () => {
-  const [productos, setProductos] = useState([]);
+  const [productos, setProductos] = useState<Product[]>([]);
 
   useEffect(() => {
     const getProductos = async () => {
