@@ -3,6 +3,14 @@ import Slider from "react-slick";
 const SliderComponent = (Slider as any).default || Slider;
 
 export const Productos = () => {
+  interface Product {
+    id: number;
+    title: string;
+    description: string;
+    price: number;
+    thumbnail: string;
+  }
+
   // 1. Llamamos a nuestro hook personalizado
   const { productos } = useProductos();
 
