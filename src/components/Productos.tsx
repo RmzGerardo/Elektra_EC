@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { useProductos, useCategorias } from "../hooks/useProductos";
 import Slider from "react-slick";
 
@@ -12,6 +13,126 @@ export const Productos = ({ onAgregarProducto }: ProductosProps) => {
   // Carga de productos y categorias desde nuestros hooks
   const { productos } = useProductos();
   const { categorias } = useCategorias();
+
+
+  // Temporizador de Cuenta Regresiva para las Ofertas Relámpago
+  const [timeLeft, setTimeLeft] = useState({
+    horas: 1,
+    minutos: 21,
+    segundos: 18,
+  });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimeLeft((prev) => {
+        let s = prev.segundos - 1;
+        let m = prev.minutos;
+        let h = prev.horas;
+
+        if (s < 0) {
+          s = 59;
+          m = m - 1;
+        }
+        if (m < 0) {
+          m = 59;
+          h = h - 1;
+        }
+        if (h < 0) {
+          // Reiniciamos a 1h 21m 18s al llegar a cero (bucle continuo para demostración)
+          h = 1;
+          m = 21;
+          s = 18;
+        }
+        return { horas: h, minutos: m, segundos: s };
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  // Lista estática de productos en Oferta Relámpago (fidelidad visual con la foto)
+  const ofertasRelampago = [
+    {
+      id: 801,
+      title: "Colchón Matrimonial Restonic Ultra Confort Ortopédico con 2 Almohadas Hipoalergénicas",
+      description: "Colchón matrimonial Restonic ultra confortable con soporte ortopédico y almohadas hipoalergénicas.",
+      thumbnail: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=400&q=80",
+      semanas: "Desde $54 a 102 semanas",
+      originalPrice: 6998,
+      price: 3099,
+      discount: 55,
+      msi: "Hasta 6 MSI de $516.5",
+      compraInternacional: false,
+    },
+    {
+      id: 802,
+      title: "Pack 4 Almohadas Peach: Confort Ultra Suave e Hipoalergénicas",
+      description: "Almohadas de fibra confortables que aseguran un descanso fresco y suave toda la noche.",
+      thumbnail: "https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=400&q=80",
+      semanas: "",
+      originalPrice: 1499,
+      price: 899,
+      discount: 40,
+      msi: "Hasta 3 MSI de $299.67",
+      compraInternacional: false,
+    },
+    {
+      id: 803,
+      title: "Xbox Series X 1TB Digital Edition - Consola Robot White (Blanco)",
+      description: "Consola de nueva generación Xbox Series X con 1TB de almacenamiento en elegante color blanco.",
+      thumbnail: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=400&q=80",
+      semanas: "Desde $192 a 154 semanas",
+      originalPrice: 13899,
+      price: 12899,
+      discount: 7,
+      msi: "Hasta 3 MSI de $4,299.67",
+      compraInternacional: false,
+    },
+    {
+      id: 804,
+      title: "Pulsera PANDORA Moments Snake Chain Slider de plata de ley",
+      description: "Pulsera clásica Pandora Moments en plata esterlina con cierre deslizante ajustable.",
+      thumbnail: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&w=400&q=80",
+      semanas: "",
+      originalPrice: 3219,
+      price: 2737,
+      discount: 14,
+      msi: "",
+      compraInternacional: true,
+    }
+  ];
+
+  // Configuración del carrusel de Ofertas Relámpago
+  const ofertasSettings = {
+    dots: true,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
+  };
 
   // Opciones de configuración para el carrusel de banners principal
   var settings = {
@@ -95,6 +216,117 @@ export const Productos = ({ onAgregarProducto }: ProductosProps) => {
         </SliderComponent>
       </div>
 
+      {/* Sección: Oferta Relámpago */}
+      <div className="max-w-[1200px] mx-auto px-6 mt-16 mb-12">
+        <div className="flex flex-row justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold text-gray-800">Oferta Relámpago</h2>
+          
+          {/* Contador de Cuenta Regresiva */}
+          <div className="flex items-center gap-3">
+            {/* Horas */}
+            <div className="flex flex-col items-center">
+              <div className="bg-[#1a1a1a] text-white rounded-lg px-3 py-2.5 font-bold text-base md:text-lg min-w-[45px] md:min-w-[50px] text-center shadow-md">
+                {timeLeft.horas.toString().padStart(2, '0')}
+              </div>
+              <span className="text-[9px] md:text-[10px] text-gray-500 font-bold uppercase mt-1">Horas</span>
+            </div>
+            {/* Minutos */}
+            <div className="flex flex-col items-center">
+              <div className="bg-[#1a1a1a] text-white rounded-lg px-3 py-2.5 font-bold text-base md:text-lg min-w-[45px] md:min-w-[50px] text-center shadow-md">
+                {timeLeft.minutos.toString().padStart(2, '0')}
+              </div>
+              <span className="text-[9px] md:text-[10px] text-gray-500 font-bold uppercase mt-1">Minutos</span>
+            </div>
+            {/* Segundos */}
+            <div className="flex flex-col items-center">
+              <div className="bg-[#1a1a1a] text-white rounded-lg px-3 py-2.5 font-bold text-base md:text-lg min-w-[45px] md:min-w-[50px] text-center shadow-md">
+                {timeLeft.segundos.toString().padStart(2, '0')}
+              </div>
+              <span className="text-[9px] md:text-[10px] text-gray-500 font-bold uppercase mt-1">Segundos</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Carrusel de Productos en Oferta */}
+        <SliderComponent {...ofertasSettings}>
+          {ofertasRelampago.map((item) => (
+            <div key={item.id} className="px-2 pb-4">
+              <div className="bg-white border border-gray-200 rounded-lg p-5 shadow-sm hover:shadow-md hover:border-red-200 transition-all flex flex-col justify-between h-[450px]">
+                
+                {/* Imagen del Producto */}
+                <div className="relative shrink-0">
+                  <img
+                    src={item.thumbnail}
+                    alt={item.title}
+                    className="w-full h-36 object-contain rounded-md bg-gray-50"
+                  />
+                  {/* Etiqueta de Compra Internacional si aplica */}
+                  {item.compraInternacional && (
+                    <span className="absolute top-2 left-2 bg-blue-50 border border-blue-200 text-[#3368a0] text-[9px] font-bold px-2 py-0.5 rounded">
+                      Compra internacional
+                    </span>
+                  )}
+                </div>
+
+                {/* Info y Título */}
+                <div className="flex-1 mt-4 flex flex-col justify-between min-h-[140px]">
+                  <div>
+                    <h3 className="font-bold text-xs sm:text-sm text-gray-800 line-clamp-2 leading-relaxed">
+                      {item.title}
+                    </h3>
+
+                    {/* Semanal de Crédito si aplica */}
+                    {item.semanas ? (
+                      <div className="text-xs text-gray-700 mt-2 font-medium">
+                        <p className="text-[10px] text-gray-400">Desde</p>
+                        <p className="font-bold text-gray-900">{item.semanas.replace("Desde ", "")}</p>
+                      </div>
+                    ) : (
+                      <div className="h-8"></div>
+                    )}
+                  </div>
+
+                  {/* Precios y descuento */}
+                  <div className="mt-3">
+                    <p className="text-[10px] text-gray-400 line-through">
+                      ${item.originalPrice.toLocaleString()}
+                    </p>
+                    <div className="flex items-center gap-2 mt-0.5">
+                      <span className="text-lg font-bold text-[#da291c]">
+                        ${item.price.toLocaleString()}
+                      </span>
+                      <span className="bg-green-50 text-green-600 text-[10px] font-bold px-1.5 py-0.5 rounded border border-green-200">
+                        -{item.discount}%
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Etiqueta de Meses sin Intereses (MSI) */}
+                <div className="mt-4">
+                  {item.msi ? (
+                    <div className="border border-green-500 rounded bg-green-50 text-green-700 text-[10px] font-bold py-1.2 text-center mb-3">
+                      {item.msi}
+                    </div>
+                  ) : (
+                    <div className="h-[30px]"></div>
+                  )}
+
+                  {/* Botón de Agregar al carrito */}
+                  <button
+                    onClick={() => onAgregarProducto(item)}
+                    className="w-full bg-[#da291c] hover:bg-[#b82218] text-white text-xs font-bold py-2.5 rounded transition-colors cursor-pointer text-center"
+                  >
+                    Agregar al carrito
+                  </button>
+                </div>
+
+              </div>
+            </div>
+          ))}
+        </SliderComponent>
+      </div>
+
       {/* Carrusel de Categorías */}
       <div className="max-w-[1200px] mx-auto px-6 mb-12 mt-16">
         <h2 className="text-xl font-bold mb-6 text-gray-800">
@@ -114,6 +346,79 @@ export const Productos = ({ onAgregarProducto }: ProductosProps) => {
             </div>
           ))}
         </SliderComponent>
+      </div>
+
+      {/* Sección: Marcas destacadas */}
+      <div className="max-w-[1200px] mx-auto px-6 mb-12 mt-16">
+        <div className="flex flex-row justify-between items-center mb-6">
+          <h2 className="text-xl md:text-2xl font-bold text-gray-800">
+            Marcas destacadas
+          </h2>
+          <a
+            href="#"
+            className="text-xs md:text-sm font-bold text-[#3368a0] hover:text-[#244b75] hover:underline"
+          >
+            Mostrar todo &gt;
+          </a>
+        </div>
+
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* Marca 1: Skechers */}
+          <div className="relative group overflow-hidden rounded-lg cursor-pointer aspect-square sm:aspect-[4/3] shadow-sm">
+            <img
+              src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=400&q=80"
+              alt="Skechers"
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-colors flex items-center justify-center">
+              <span className="text-white text-2xl md:text-3xl font-black italic tracking-wider font-serif">
+                SKECHERS
+              </span>
+            </div>
+          </div>
+
+          {/* Marca 2: Madesa */}
+          <div className="relative group overflow-hidden rounded-lg cursor-pointer aspect-square sm:aspect-[4/3] shadow-sm">
+            <img
+              src="https://images.unsplash.com/photo-1617806118233-18e1db207f62?auto=format&fit=crop&w=400&q=80"
+              alt="Madesa"
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-colors flex items-center justify-center">
+              <span className="text-white text-2xl md:text-3xl font-bold tracking-tight lowercase font-sans">
+                madesa
+              </span>
+            </div>
+          </div>
+
+          {/* Marca 3: Letmex */}
+          <div className="relative group overflow-hidden rounded-lg cursor-pointer aspect-square sm:aspect-[4/3] shadow-sm">
+            <img
+              src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=400&q=80"
+              alt="Letmex"
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-colors flex items-center justify-center">
+              <span className="text-white text-2xl md:text-3xl font-extrabold tracking-wide uppercase font-sans">
+                Letmex®
+              </span>
+            </div>
+          </div>
+
+          {/* Marca 4: LG */}
+          <div className="relative group overflow-hidden rounded-lg cursor-pointer aspect-square sm:aspect-[4/3] shadow-sm">
+            <img
+              src="https://images.unsplash.com/photo-1593305841991-05c297ba4575?auto=format&fit=crop&w=400&q=80"
+              alt="LG"
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-colors flex items-center justify-center">
+              <span className="text-white text-3xl md:text-4xl font-extrabold tracking-normal uppercase font-sans flex items-center gap-1">
+                LG
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Grid de Productos Disponibles */}
