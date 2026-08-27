@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Elektra from "../public/Elektra_Logo.png";
+import Elektra from "../../public/Elektra_Logo.png";
 
 interface MainProps {
   abrirCarro: () => void;
@@ -26,7 +26,7 @@ export const Main = ({ abrirCarro, totalArticulos }: MainProps) => {
           menuAbierto ? "translate-x-0" : "-translate-x-full"
         } block md:hidden overflow-y-auto`}
       >
-        {/* Botón de cerra*/}
+        {/* Botón para cerrar el menú lateral */}
         <div className="flex justify-end p-4">
           <button
             onClick={() => setMenuAbierto(false)}
@@ -161,7 +161,7 @@ export const Main = ({ abrirCarro, totalArticulos }: MainProps) => {
       <div className="w-full">
         {/* Contenedor interno centrado  */}
         <div className="container_main flex flex-wrap md:flex-nowrap justify-between items-center gap-4 py-3 px-6 w-full max-w-[1200px] mx-auto">
-          {/* Logo (Orden 1 en móvil y normal en pantallas grandes) */}
+          {/* Logo de Elektra (vuelve a la página principal al darle clic) */}
           <div className="logo_cabecera order-1 md:order-none">
             <img
               className="logo_elektra2 w-[150px] h-auto block"
@@ -267,7 +267,7 @@ export const Main = ({ abrirCarro, totalArticulos }: MainProps) => {
                   d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
                 ></path>
               </svg>
-              {/* indecador*/}
+              {/* Círculo rojo que muestra la cantidad de productos agregados */}
               <span className="absolute -top-1 -right-1 bg-[#da291c] text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
                 {totalArticulos}
               </span>
@@ -276,7 +276,7 @@ export const Main = ({ abrirCarro, totalArticulos }: MainProps) => {
         </div>
       </div>
 
-      {/* Barra de Ubicación Móvil  */}
+      {/* Barra de ubicación (solo visible en dispositivos móviles) */}
       <div className="block md:hidden w-full bg-[#f4f4f4] py-2 px-4 border-b border-gray-200">
         <div className="flex items-center justify-between text-xs font-bold text-red-600 cursor-pointer">
           <div className="flex items-center gap-1.5">
@@ -312,7 +312,7 @@ export const Main = ({ abrirCarro, totalArticulos }: MainProps) => {
         </div>
       </div>
 
-      {/* Barra de Categorías  */}
+      {/* Barra de categorías y enlaces rápidos (solo visible en pantallas grandes) */}
       <div className="w-full border-b border-gray-300 shadow-sm mt-1 hidden md:block">
         <div className="flex flex-row justify-between items-center w-full max-w-[1200px] mx-auto px-6 py-2 text-sm font-bold text-gray-700">
           {/* Lado izquierdo (Categorías) */}

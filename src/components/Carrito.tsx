@@ -1,23 +1,23 @@
-import type { ElementoCarrito } from "../src/App"; // Importamos la interfaz del elemento
-// Importamos la interfaz del elemento
+import type { ElementoCarrito } from "../App";
 import { useNavigate } from "react-router-dom";
 
 interface CarritoProps {
   onClose: () => void;
-  elementos: ElementoCarrito[]; // <-- Recibimos la lista de productos agregados
+  elementos: ElementoCarrito[];
 }
 
 export const Carrito = ({ onClose, elementos }: CarritoProps) => {
   const navigate = useNavigate();
-  // Calculamos el precio total acumulado (precio * cantidad de cada elemento)
+
   let precioTotal = 0;
   elementos.forEach((item) => {
-    precioTotal = precioTotal + (item.price * item.quantity);
+    precioTotal = precioTotal + item.price * item.quantity;
   });
 
   return (
     <>
       <div className="fixed top-0 right-0 h-screen w-80 bg-white shadow-2xl z-50 flex flex-col p-6">
+        {/* Cabecera carrito */}
         <div className="flex justify-between items-center border-b pb-4 mb-4">
           <h2 className="text-lg font-bold text-gray-800">Mi Carrito</h2>
           <button
@@ -28,15 +28,15 @@ export const Carrito = ({ onClose, elementos }: CarritoProps) => {
           </button>
         </div>
 
-        {/* Si el carrito está vacío, mostramos el mensaje */}
+        {/* Mensaje de carrito vacío  */}
         {elementos.length === 0 ? (
           <p className="text-gray-500 text-sm text-center my-auto">
             Tu carrito está vacío.
           </p>
         ) : (
-          // Si tiene productos, los listamos
+          // Contenedor
           <div className="flex-1 overflow-y-auto flex flex-col justify-between">
-            {/* Lista de productos agregados */}
+            {/* Lista de productos */}
             <div className="flex flex-col gap-4">
               {elementos.map((item) => (
                 <div
@@ -63,7 +63,7 @@ export const Carrito = ({ onClose, elementos }: CarritoProps) => {
               ))}
             </div>
 
-            {/* Total acumulado de la compra */}
+            {/* Suma total */}
             <div className="border-t pt-4 mt-4">
               <div className="flex justify-between items-center mb-4">
                 <span className="text-sm font-bold text-gray-600">Total:</span>
@@ -72,7 +72,10 @@ export const Carrito = ({ onClose, elementos }: CarritoProps) => {
                 </span>
               </div>
               <button
-                onClick={() => navigate("/Pagar")}
+                onClick={() => {
+                  onClose();
+                  navigate("/Pagar");
+                }}
                 className="w-full bg-[#da291c] text-white py-2.5 rounded font-bold hover:bg-[#b82218] transition-colors cursor-pointer text-center text-sm"
               >
                 Proceder al pago

@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import type { ElementoCarrito } from "../src/App";
+import type { ElementoCarrito } from "../App";
 
 interface PagarProps {
   elementos: ElementoCarrito[];
@@ -19,13 +19,12 @@ export const Pagar = ({
   // Calcular subtotales
   let subtotal = 0;
   elementos.forEach((item) => {
-    subtotal = subtotal + (item.price * item.quantity);
+    subtotal = subtotal + item.price * item.quantity;
   });
   const total = subtotal;
 
   return (
     <>
-      {/* Cabecera superior */}
       <div className="border-b border-gray-200 shadow-sm bg-white py-3 px-6">
         <div className="max-w-[1200px] mx-auto flex items-center justify-between">
           <img
@@ -42,14 +41,11 @@ export const Pagar = ({
         </div>
       </div>
 
-      {/* Contenedor principal */}
       <div className="max-w-[1200px] mx-auto p-6 mt-8">
         <h2 className="font-bold text-2xl text-gray-700 mb-6">Mi carrito</h2>
 
         <div className="flex flex-col lg:flex-row gap-8 items-start">
-          {/* Columna izquierda (Detalles de envío y Productos) */}
           <div className="flex-1 w-full flex flex-col gap-6">
-            {/* Tarjeta del Código Postal */}
             <div className="bg-white shadow-md rounded-lg p-6 flex flex-col sm:flex-row items-center justify-between border border-gray-100">
               <p className="text-sm font-bold text-gray-700 mr-4">
                 Ingresa el código postal donde quieres recibir o recoger tu
@@ -62,15 +58,13 @@ export const Pagar = ({
               />
             </div>
 
-            {/* Elige una opción de entrega (Header de la foto) */}
             <div className="flex flex-col gap-4 mt-2">
               <h3 className="font-bold text-base text-gray-800">
                 Elige una opción de entrega
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {/* Opción 1: Envío a domicilio */}
+                {/* Envío a domicilio */}
                 <div className="bg-white border-2 border-black rounded-lg p-5 flex items-center justify-center gap-3 cursor-pointer shadow-sm">
-                  {/* Icono Camión SVG */}
                   <svg
                     className="w-5 h-5 text-gray-700"
                     fill="none"
@@ -93,7 +87,7 @@ export const Pagar = ({
                   </span>
                 </div>
 
-                {/* ENVIO */}
+                {/* Entrega en Tienda */}
                 <div className="bg-gray-50 border border-gray-200 rounded-lg p-5 flex items-center justify-center gap-3 cursor-not-allowed opacity-60">
                   <svg
                     className="w-5 h-5 text-gray-400"
@@ -135,14 +129,12 @@ export const Pagar = ({
                       key={item.id}
                       className="bg-white border border-gray-200 rounded-lg p-5 shadow-sm"
                     >
-                      {/* Vendedor y divisor */}
                       <div className="text-sm text-gray-800 font-semibold mb-2">
                         Vendido por <span className="font-bold">Mabe</span>
                       </div>
                       <div className="border-t border-gray-200 my-3"></div>
 
                       <div className="flex flex-col md:flex-row gap-5 items-center justify-between">
-                        {/* Foto y detalles principales */}
                         <div className="flex gap-4 items-center flex-1 w-full">
                           <img
                             src={item.thumbnail}
@@ -170,13 +162,12 @@ export const Pagar = ({
                           </div>
                         </div>
 
-                        {/* Controles de cantidad, fecha de entrega y eliminar */}
                         <div className="flex flex-wrap items-center gap-6 justify-between md:justify-end w-full md:w-auto">
                           <span className="text-xs text-green-600 font-bold">
                             Recibe antes de 3 días hábiles
                           </span>
 
-                          {/* Suma / Resta de cantidad */}
+                          {/* suma*/}
                           <div className="flex items-center gap-2">
                             <button
                               onClick={() => onRestar(item.id)}
@@ -195,7 +186,7 @@ export const Pagar = ({
                             </button>
                           </div>
 
-                          {/* Eliminar (Bote de basura) */}
+                          {/* borrar */}
                           <button
                             onClick={() => onEliminar(item.id)}
                             className="text-gray-400 hover:text-[#da291c] cursor-pointer transition-colors p-1"
@@ -224,7 +215,7 @@ export const Pagar = ({
             </div>
           </div>
 
-          {/* Columna derecha (Resumen del pedido) */}
+          {/* Columna  */}
           <div className="w-full lg:w-[400px] flex flex-col gap-6 shrink-0">
             {/* Pagos */}
             <div className="bg-white shadow-md rounded-lg p-6 border border-gray-100">

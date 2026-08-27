@@ -1,6 +1,7 @@
 import { consumirProductos, consumirCategorias } from "../services/productos";
 import { useEffect, useState } from "react";
 
+// Estructura de datos para tipar un producto individual
 interface Product {
   id: number;
   title: string;
@@ -9,6 +10,7 @@ interface Product {
   thumbnail: string;
 }
 
+// Hook personalizado para cargar y controlar los productos de la tienda
 export const useProductos = () => {
   const [productos, setProductos] = useState<Product[]>([]);
 
@@ -30,6 +32,7 @@ export const useProductos = () => {
   return { productos };
 };
 
+// Hook personalizado para cargar y controlar la lista de categorías
 export const useCategorias = () => {
   const [categorias, setCategorias] = useState<string[]>([]);
 

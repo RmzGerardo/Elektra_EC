@@ -1,3 +1,4 @@
+// Descarga el listado de productos desde la API pública dummyjson
 export const consumirProductos = async () => {
   try {
     const response = await fetch("https://dummyjson.com/products");
@@ -15,10 +16,11 @@ export const consumirProductos = async () => {
   }
 };
 
+// Descarga la lista de nombres de categorías que existen en la API
 export const consumirCategorias = async () => {
   try {
     const response = await fetch(
-      "https://dummyjson.com/products/category-list",
+      "https://dummyjson.com/products/category-list"
     );
     if (!response.ok) {
       throw new Error("Error al consumir categorias");

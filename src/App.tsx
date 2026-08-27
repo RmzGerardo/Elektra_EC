@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Main } from "../components/Main";
-import { Productos } from "../components/Productos";
-import { Carrito } from "../components/Carrito";
-import { Login } from "../components/Login";
-import { Pagar } from "../components/Pagar";
-import { DatosPersonales } from "../components/DatosPersonales";
-import { Pagando } from "../components/Pagando";
+import { Main } from "./components/Main";
+import { Productos } from "./components/Productos";
+import { Carrito } from "./components/Carrito";
+import { Login } from "./components/Login";
+import { Pagar } from "./components/Pagar";
+import { DatosPersonales } from "./components/DatosPersonales";
+import { Pagando } from "./components/Pagando";
 
+// Estructura de los productos que guardamos en el carrito de compras
 export interface ElementoCarrito {
   id: number;
   title: string;
@@ -17,10 +18,12 @@ export interface ElementoCarrito {
 }
 
 export const App = () => {
+  // Estado para saber si el carrito lateral derecho está abierto o cerrado
   const [carritoAbierto, setCarritoAbierto] = useState(false);
+  // Lista de productos seleccionados por el cliente
   const [carrito, setCarrito] = useState<ElementoCarrito[]>([]);
 
-  // 1. RESTAURAR: Devolvemos el código para agregar productos al carrito
+  // Agrega un producto al carrito (o le suma 1 a la cantidad si ya existe en la lista)
   const agregarAlCarrito = (producto: any) => {
     setCarrito((prevCarrito) => {
       const existe = prevCarrito.find((item) => item.id === producto.id);
@@ -44,6 +47,7 @@ export const App = () => {
     });
   };
 
+  // Resta una pieza de un producto del carrito. Si la cantidad llega a 0, lo elimina
   const restarAlCarrito = (id: number) => {
     setCarrito((prevCarrito) =>
       prevCarrito
@@ -54,11 +58,12 @@ export const App = () => {
     );
   };
 
+  // Elimina un producto por completo del carrito (sin importar cuántas piezas tenga)
   const eliminarDelCarrito = (id: number) => {
     setCarrito((prevCarrito) => prevCarrito.filter((item) => item.id !== id));
   };
 
-  // 4. Calculamos el total de piezas agregadas para el número rojo del menú
+  // Suma todas las piezas del carrito para mostrar la cantidad en el círculo rojo
   let totalArticulos = 0;
   carrito.forEach((item) => {
     totalArticulos = totalArticulos + item.quantity;
@@ -67,7 +72,7 @@ export const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        {/* 2. METER AQUÍ: Colocamos el Main con sus props solo en la ruta principal "/" */}
+        {/* Ruta principal: Muestra la tienda con su cabecera y el listado de productos */}
         <Route
           path="/"
           element={
@@ -81,10 +86,10 @@ export const App = () => {
           }
         />
 
-        {/* Ruta del login: Sin el Main */}
+        {/* Pantalla de Login (no lleva cabecera global) */}
         <Route path="/Login" element={<Login />} />
 
-        {/* Ruta de Pagar: Sin el Main (ya que tiene su propio header de checkout) */}
+        {/* Primer paso del pago: Confirmar productos del carrito */}
         <Route
           path="/Pagar"
           element={
@@ -97,20 +102,17 @@ export const App = () => {
           }
         />
 
-        {/* Ruta de Datos Personales */}
+        {/* Segundo paso del pago: Datos del cliente y dirección */}
         <Route
           path="/DatosPersonales"
           element={<DatosPersonales elementos={carrito} />}
         />
 
-        {/* Ruta de Pagando */}
-        <Route
-          path="/Pagando"
-          element={<Pagando elementos={carrito} />}
-        />
+        {/* Tercer paso del pago: Selección de métodos de pago */}
+        <Route path="/Pagando" element={<Pagando elementos={carrito} />} />
       </Routes>
 
-      {/* El carrito flotante */}
+      {/* El panel lateral del carrito de compras que se desliza por la derecha */}
       {carritoAbierto && (
         <Carrito onClose={() => setCarritoAbierto(false)} elementos={carrito} />
       )}
