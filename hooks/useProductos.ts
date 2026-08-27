@@ -31,7 +31,7 @@ export const useProductos = () => {
 };
 
 export const useCategorias = () => {
-  const [categorias, setCategorias] = useState<String[]>([]);
+  const [categorias, setCategorias] = useState<string[]>([]);
 
   useEffect(() => {
     const getCategorias = async () => {
