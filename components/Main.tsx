@@ -1,30 +1,35 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Elektra from "../public/Elektra_Logo.png";
 
-export const Main = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
+interface MainProps {
+  abrirCarro: () => void;
+  totalArticulos: number;
+}
+
+export const Main = ({ abrirCarro, totalArticulos }: MainProps) => {
+  const [menuAbierto, setMenuAbierto] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <>
-      {/* Menu Lateral Hamburguesa (Drawer Móvil) */}
-      {/* Fondo oscuro traslúcido */}
-      {menuOpen && (
+      {menuAbierto && (
         <div
           className="fixed inset-0 bg-black/50 z-50 transition-opacity duration-300 block md:hidden"
-          onClick={() => setMenuOpen(false)}
+          onClick={() => setMenuAbierto(false)}
         />
       )}
 
       {/* Panel del Menú Lateral */}
       <div
         className={`fixed top-0 left-0 h-full w-[280px] bg-white z-50 shadow-2xl transition-transform duration-300 transform ${
-          menuOpen ? "translate-x-0" : "-translate-x-full"
+          menuAbierto ? "translate-x-0" : "-translate-x-full"
         } block md:hidden overflow-y-auto`}
       >
-        {/* Botón de cerrar (X) */}
+        {/* Botón de cerra*/}
         <div className="flex justify-end p-4">
           <button
-            onClick={() => setMenuOpen(false)}
+            onClick={() => setMenuAbierto(false)}
             className="text-gray-700 hover:text-[#da291c] focus:outline-none cursor-pointer"
           >
             <svg
@@ -44,30 +49,12 @@ export const Main = () => {
           </button>
         </div>
 
-        {/* Saludo ¡Hola! */}
-        <div className="flex items-center gap-3 px-6 pb-4">
-          <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center border border-gray-300">
-            <svg
-              className="w-6 h-6 text-gray-500"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-              ></path>
-            </svg>
-          </div>
-          <span className="text-xl font-bold text-gray-800">¡Hola!</span>
-        </div>
-
         {/* Botones de inicio / registro */}
         <div className="grid grid-cols-2 gap-3 px-6 pb-6 border-b border-gray-200">
-          <button className="bg-[#da291c] text-white text-xs font-bold py-2 rounded hover:bg-[#b82218] transition-colors cursor-pointer text-center">
+          <button
+            onClick={() => navigate("/Login")}
+            className="bg-[#da291c] text-white text-xs font-bold py-2 rounded hover:bg-[#b82218] transition-colors cursor-pointer text-center"
+          >
             Iniciar sesión
           </button>
           <button className="bg-white text-[#da291c] border border-[#da291c] text-xs font-bold py-2 rounded hover:bg-red-50 transition-colors cursor-pointer text-center">
@@ -183,11 +170,11 @@ export const Main = () => {
             />
           </div>
 
-          {/* Barra de búsqueda (Orden 4 en móvil, con el menú hamburguesa a la izquierda) */}
+          {/* Barra de búsqueda  */}
           <div className="input_busqueda order-4 md:order-none w-full md:w-auto flex flex-1 max-w-xl md:mx-8 items-center gap-3">
             {/* Botón Hamburguesa */}
             <button
-              onClick={() => setMenuOpen(true)}
+              onClick={() => setMenuAbierto(true)}
               className="block md:hidden text-gray-700 hover:text-[#da291c] focus:outline-none cursor-pointer"
             >
               <svg
@@ -234,7 +221,10 @@ export const Main = () => {
 
           {/* Iniciar Sesión  */}
           <div className="order-2 md:order-none ml-auto md:ml-0">
-            <button className="flex items-center gap-2 text-sm font-bold text-gray-800 hover:text-[#da291c] transition-colors cursor-pointer">
+            <button
+              onClick={() => navigate("/Login")}
+              className="flex items-center gap-2 text-sm font-bold text-gray-800 hover:text-[#da291c] transition-colors cursor-pointer"
+            >
               {/* Icono de Usuario */}
               <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center border border-gray-300">
                 <svg
@@ -258,7 +248,10 @@ export const Main = () => {
 
           {/* Carrito  */}
           <div className="order-3 md:order-none">
-            <button className="relative flex items-center justify-center p-2 text-gray-800 hover:text-[#da291c] transition-colors cursor-pointer">
+            <button
+              onClick={abrirCarro}
+              className="relative flex items-center justify-center p-2 text-gray-800 hover:text-[#da291c] transition-colors cursor-pointer"
+            >
               {/* Icono de Carrito */}
               <svg
                 className="w-6 h-6"
@@ -276,7 +269,7 @@ export const Main = () => {
               </svg>
               {/* indecador*/}
               <span className="absolute -top-1 -right-1 bg-[#da291c] text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
-                0
+                {totalArticulos}
               </span>
             </button>
           </div>

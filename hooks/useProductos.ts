@@ -1,4 +1,4 @@
-import { consumirProductos } from "../services/productos";
+import { consumirProductos, consumirCategorias } from "../services/productos";
 import { useEffect, useState } from "react";
 
 interface Product {
@@ -28,4 +28,25 @@ export const useProductos = () => {
   }, []);
 
   return { productos };
+};
+
+export const useCategorias = () => {
+  const [categorias, setCategorias] = useState<String[]>([]);
+
+  useEffect(() => {
+    const getCategorias = async () => {
+      try {
+        const response = await consumirCategorias();
+        if (response) {
+          setCategorias(response);
+        }
+      } catch (error) {
+        console.error("Error al obtener las categorias: ", error);
+      }
+    };
+
+    getCategorias();
+  }, []);
+
+  return { categorias };
 };

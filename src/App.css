@@ -23,8 +23,7 @@ body {
 }
 
 /* card login */
-
-.container {
+.container-login {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -35,7 +34,7 @@ body {
   box-sizing: border-box;
 }
 
-.container label {
+.container-login label {
   width: 100%;
   max-width: 420px;
   color: #3368a0;
@@ -49,10 +48,9 @@ body {
   box-sizing: border-box;
 }
 
-.container label:hover {
+.container-login label:hover {
   text-decoration: underline;
 }
-
 .card-login {
   background-color: #fff;
   border-radius: 8px;
@@ -185,5 +183,3 @@ hr {
   color: #244b75;
   font-weight: bold;
 }
-
-

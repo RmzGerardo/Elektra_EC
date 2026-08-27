@@ -1,6 +1,8 @@
 import Elektra from "../public/Elektra_Logo.png";
+import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
+  const navigate = useNavigate();
   return (
     <>
       <div className="login-container">
@@ -9,8 +11,10 @@ export const Login = () => {
 
       {/* Card del login */}
 
-      <div className="container">
-        <label>&lt; Regresar</label>
+      <div className="container-login">
+        <label onClick={() => navigate("/")} className="cursor-pointer">
+          &lt; Regresar
+        </label>
         <div className="card-login">
           <p className="title-login">Inicia sesión</p>
           <p className="text-login">

@@ -1,12 +1,15 @@
-import { useProductos } from "../hooks/useProductos";
+import { useProductos, useCategorias } from "../hooks/useProductos";
 import Slider from "react-slick";
 const SliderComponent = (Slider as any).default || Slider;
 
-export const Productos = () => {
+interface ProductosProps {
+  onAgregarProducto: (producto: any) => void;
+}
 
-
+export const Productos = ({ onAgregarProducto }: ProductosProps) => {
   // 1. Llamamos a nuestro hook personalizado
   const { productos } = useProductos();
+  const { categorias } = useCategorias();
 
   var settings = {
     dots: true,
@@ -14,6 +17,30 @@ export const Productos = () => {
     speed: 5000,
     slidesToShow: 1,
     slidesToScroll: 1,
+  };
+
+  const categoriasSettings = {
+    dots: false, // Quitamos los puntos de abajo para que sea más limpio
+    infinite: false, // No hace falta que sea infinito
+    speed: 500,
+    slidesToShow: 6, // Mostramos 6 tarjetas a la vez en PC
+    slidesToScroll: 2, // Al deslizar, avanzará de 2 en 2
+    responsive: [
+      {
+        breakpoint: 1024, // Tablets y laptops chicas
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 2,
+        },
+      },
+      {
+        breakpoint: 640, // Celulares
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
 
   return (
@@ -64,6 +91,30 @@ export const Productos = () => {
         </SliderComponent>
       </div>
 
+      {/* categorias de productos */}
+      <div className="max-w-[1200px] mx-auto px-6 mb-12 mt-16">
+        <h2 className="text-xl font-bold mb-6 text-gray-800">
+          Categorías de Productos
+        </h2>
+
+        <SliderComponent {...categoriasSettings}>
+          {categorias.map((categoria) => (
+            <div key={categoria} className="px-2">
+              {" "}
+              {/* px-2 crea el espacio de separación entre tarjetas */}
+              <div className="bg-white h-32 rounded-lg flex items-center justify-center shadow hover:shadow-md border border-gray-100 hover:border-red-200 transition-all cursor-pointer text-center p-4">
+                <span className="text-sm font-bold text-gray-700 capitalize">
+                  {/* Reemplazamos los guiones por espacios para que se vea más limpio (ej. "home-decoration" -> "home decoration") */}
+                  {categoria.replace("-", " ")}
+                </span>
+              </div>
+            </div>
+          ))}
+        </SliderComponent>
+      </div>
+
+      {/* prodcutos en exhibicion */}
+
       <div className="max-w-[1200px] mx-auto p-6">
         <h2 className="text-xl font-bold mb-6 text-gray-800">
           Nuestros Productos
@@ -98,6 +149,12 @@ export const Productos = () => {
                 <span className="text-lg font-bold text-red-600">
                   ${producto.price}
                 </span>
+                <button
+                  onClick={() => onAgregarProducto(producto)}
+                  className="w-full bg-[#da291c] hover:bg-[#b82218] text-white text-xs font-bold py-2 px-4 rounded transition-colors cursor-pointer text-center"
+                >
+                  Agregar al carrito
+                </button>
               </div>
             </div>
           ))}
